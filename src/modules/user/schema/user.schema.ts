@@ -15,7 +15,7 @@ export class User {
   email: string;
 
   @Prop({ required: true })
-  private password: string;
+  password: string;
 
   @Prop({ enum: ['male', 'female'] })
   gender?: string;
