@@ -38,3 +38,4 @@ lerna-debug.log*
 **/modules/app/settings.schema.ts
 **/test
 **/yarn.lock
+**/**/post/post.service.ts
