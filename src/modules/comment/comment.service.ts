@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Document } from 'mongoose';
 import { Comment } from './schema/comment.schema';
@@ -55,17 +60,71 @@ export class CommentService {
     const end = start + this.per_page;
 
     return {
-      comments: comments.slice(start, end).map((comment: Comment & Document) => {
-        return {
-          ...comment.toJSON(),
-          owner: '/profile/' + comment.owner,
-          post: '/post/' + comment.post,
-        };
-      }),
+      comments: comments
+        .slice(start, end)
+        .map((comment: Comment & Document) => {
+          return {
+            ...comment.toJSON(),
+            owner: '/profile/' + comment.owner,
+            post: '/post/' + comment.post,
+          };
+        }),
       page,
       per_page: this.per_page,
       total_pages,
       total: comments.length,
+    };
+  }
+
+  async editComment(commentId: string, fields: Partial<Comment>) {
+    const comment = await this.CommentModel.findById(commentId);
+    if (!comment) {
+      throw new NotFoundException(
+        null,
+        `the comment with id \`${commentId}\` was not found`,
+      );
+    }
+
+    const updateFields = Object.keys(fields);
+    const allowedFieldsToBeUpdated = ['content'];
+
+    updateFields.forEach(function updateField(field: string) {
+      if (!(field in comment)) {
+        throw new BadRequestException(
+          null,
+          `this field \`${field}\` isn\'t of type comment`,
+        );
+      }
+
+      if (!allowedFieldsToBeUpdated.includes(field)) {
+        throw new ForbiddenException(
+          null,
+          `you can not set this field \`${field}\``,
+        );
+      }
+
+      comment[field] = fields[field];
+    });
+
+    await comment.save();
+
+    comment.owner = '/profile/' + comment.owner;
+    comment.post = '/post/' + comment.post;
+
+    return comment;
+  }
+
+  async deleteComment(commentId: string) {
+    const comment = await this.CommentModel.findByIdAndDelete(commentId);
+    if (!comment) {
+      throw new NotFoundException(
+        null,
+        `the comment with id \`${commentId}\` was not found`,
+      );
+    }
+
+    return {
+      message: 'deleted successfuly',
     };
   }
 }

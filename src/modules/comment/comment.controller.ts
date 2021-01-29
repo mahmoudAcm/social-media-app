@@ -1,8 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
+  Put,
   Query,
   UseFilters,
   UsePipes,
@@ -31,5 +34,20 @@ export class CommentController {
   getPosts(@Query() query: any) {
     const { post, page } = query;
     return this.commentService.getComments(post, page);
+  }
+
+  @Put('/comment/:commentId')
+  @UseFilters(CastErrorExceptionFilter)
+  editComment(
+    @Param('commentId') commentId: string,
+    @Body(CheckChanalPipe) fields: Partial<Comment>,
+  ) {
+    return this.commentService.editComment(commentId, fields);
+  }
+
+  @Delete('/comment/:commentId')
+  @UseFilters(CastErrorExceptionFilter)
+  deletePost(@Param('commentId') commentId: string) {
+    return this.commentService.deleteComment(commentId);
   }
 }
