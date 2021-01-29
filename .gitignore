@@ -39,4 +39,3 @@ lerna-debug.log*
 **/test
 **/yarn.lock
 **/**/post/post.service.ts
-**/**/comment
