@@ -12,9 +12,9 @@ import {
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { SocialPost } from './schema/post.schema';
-import { CheckChanalPipe } from './pipes/checkChanal.pipe';
+import { CheckChanalPipe } from '../../common/pipes/checkChanal.pipe';
+import { CastErrorExceptionFilter } from '../../common/filters/castErrorException.filter';
 import { CreatePostExceptionFilter } from './filters/createPostException.filter';
-import { CastErrorExceptionFilter } from './filters/castErrorException.filter';
 import { GetPostsPipe } from './pipes/getPosts.pipe';
 
 @Controller()
