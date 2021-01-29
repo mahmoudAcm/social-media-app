@@ -1,18 +1,20 @@
 import {
   Controller,
   Post,
+  Put,
   Body,
   Param,
   Query,
   Get,
   UseFilters,
   UsePipes,
-  NotImplementedException,
+  Delete,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { SocialPost } from './schema/post.schema';
 import { CheckChanalPipe } from './pipes/checkChanal.pipe';
 import { CreatePostExceptionFilter } from './filters/createPostException.filter';
+import { CastErrorExceptionFilter } from './filters/castErrorException.filter';
 import { GetPostsPipe } from './pipes/getPosts.pipe';
 
 @Controller()
@@ -34,7 +36,23 @@ export class PostController {
   }
 
   @Get('/post/:postId')
-  async getPost(@Param('postId') postId: string) {
-    throw new NotImplementedException(null, 'Not Implemented');
+  @UseFilters(CastErrorExceptionFilter)
+  getPost(@Param('postId') postId: string) {
+    return this.postService.getPost(postId);
+  }
+
+  @Put('/post/:postId')
+  @UseFilters(CastErrorExceptionFilter)
+  editPost(
+    @Param('postId') postId: string,
+    @Body(CheckChanalPipe) fields: Partial<SocialPost>,
+  ) {
+    return this.postService.editPost(postId, fields);
+  }
+
+  @Delete('/post/:postId')
+  @UseFilters(CastErrorExceptionFilter)
+  deletePost(@Param('postId') postId: string) {
+    return this.postService.deletePost(postId);
   }
 }

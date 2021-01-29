@@ -9,7 +9,9 @@ import {
 export class GetPostsPipe implements PipeTransform {
   transform(query: any, metadata: ArgumentMetadata) {
     const requiredFields = ['user', 'page'];
-    const missedFields = requiredFields.filter(function isFieldMissed(field: string){
+    const missedFields = requiredFields.filter(function isFieldMissed(
+      field: string,
+    ) {
       return !(field in query);
     });
 
