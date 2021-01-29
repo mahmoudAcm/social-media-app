@@ -6,6 +6,11 @@ import { PostModule } from '../post/post.module';
 import { CommentModule } from '../comment/comment.module';
 
 @Module({
-  imports: [MongooseModule.forRoot(DB_LINK), UserModule, PostModule, CommentModule],
+  imports: [
+    MongooseModule.forRoot(DB_LINK),
+    UserModule,
+    PostModule,
+    CommentModule,
+  ],
 })
 export class AppModule {}
