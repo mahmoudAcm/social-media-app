@@ -4,6 +4,8 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { User, UserSchema } from './schema/user.schema';
 import { Profile, ProfileSchema } from './schema/profile.schema';
+import { PostModule } from '../post/post.module';
+import { CommentModule } from '../comment/comment.module';
 
 @Module({
   imports: [
@@ -11,6 +13,8 @@ import { Profile, ProfileSchema } from './schema/profile.schema';
       { name: User.name, schema: UserSchema },
       { name: Profile.name, schema: ProfileSchema },
     ]),
+    PostModule,
+    CommentModule,
   ],
   controllers: [UserController],
   providers: [UserService],

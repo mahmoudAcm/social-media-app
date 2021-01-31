@@ -1,6 +1,4 @@
 import {
-  BadRequestException,
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -109,5 +107,10 @@ export class CommentService {
     return {
       message: 'deleted successfuly',
     };
+  }
+
+  async countComments(username: string) {
+    const comments = await this.CommentModel.find({ owner: username });
+    return comments.length;
   }
 }

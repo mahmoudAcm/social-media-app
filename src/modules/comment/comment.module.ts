@@ -14,5 +14,6 @@ import { SocialPost, PostSchema } from '../post/schema/post.schema';
   ],
   controllers: [CommentController],
   providers: [CommentService],
+  exports: [CommentService],
 })
 export class CommentModule {}
