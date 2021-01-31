@@ -7,7 +7,7 @@ import { CommentModule } from '../comment/comment.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(DB_LINK),
+    MongooseModule.forRoot(DB_LINK, { useFindAndModify: false }),
     UserModule,
     PostModule,
     CommentModule,

@@ -72,7 +72,10 @@ export class PostService {
   }
 
   async editPost(postId: string, fields: Partial<SocialPost>) {
-    const post = await this.PostModel.findById(postId);
+    const post = await this.PostModel.findByIdAndUpdate(postId, fields, {
+      new: true,
+    });
+
     if (!post) {
       throw new NotFoundException(
         null,
@@ -80,35 +83,12 @@ export class PostService {
       );
     }
 
-    const updateFields = Object.keys(fields);
-    const allowedFieldsToBeUpdated = ['type', 'content', 'title'];
-
-    updateFields.forEach(function updateField(field: string) {
-      if (!(field in post)) {
-        throw new BadRequestException(
-          null,
-          `this field \`${field}\` isn\'t of type post`,
-        );
-      }
-
-      if (!allowedFieldsToBeUpdated.includes(field)) {
-        throw new ForbiddenException(
-          null,
-          `you can not set this field \`${field}\``,
-        );
-      }
-
-      post[field] = fields[field];
-    });
-
-    await post.save();
-
     post.owner = '/profile/' + post.owner;
 
     return {
       ...post.toJSON(),
       comments: {
-        link: `/comments?post=${post.id}&page={pageNumber}`,
+        link: `/comments?post=${postId}&page={pageNumber}`,
         per_page: 10,
       },
     };

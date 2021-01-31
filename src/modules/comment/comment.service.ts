@@ -77,36 +77,19 @@ export class CommentService {
   }
 
   async editComment(commentId: string, fields: Partial<Comment>) {
-    const comment = await this.CommentModel.findById(commentId);
+    const comment = await this.CommentModel.findByIdAndUpdate(
+      commentId,
+      fields,
+      {
+        new: true,
+      },
+    );
     if (!comment) {
       throw new NotFoundException(
         null,
         `the comment with id \`${commentId}\` was not found`,
       );
     }
-
-    const updateFields = Object.keys(fields);
-    const allowedFieldsToBeUpdated = ['content'];
-
-    updateFields.forEach(function updateField(field: string) {
-      if (!(field in comment)) {
-        throw new BadRequestException(
-          null,
-          `this field \`${field}\` isn\'t of type comment`,
-        );
-      }
-
-      if (!allowedFieldsToBeUpdated.includes(field)) {
-        throw new ForbiddenException(
-          null,
-          `you can not set this field \`${field}\``,
-        );
-      }
-
-      comment[field] = fields[field];
-    });
-
-    await comment.save();
 
     comment.owner = '/profile/' + comment.owner;
     comment.post = '/post/' + comment.post;

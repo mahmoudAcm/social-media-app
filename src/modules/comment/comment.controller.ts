@@ -13,6 +13,7 @@ import {
 import { CommentService } from './comment.service';
 import { Comment } from './schema/comment.schema';
 import { CheckChanalPipe } from '../../common/pipes/checkChanal.pipe';
+import { AllowedFieldsToBeUpdatedPipe } from '../../common/pipes/allowedFieldsToBeUpdated.pipe';
 import { CastErrorExceptionFilter } from '../../common/filters/castErrorException.filter';
 import { ValidateCommentPipe } from './pipes/validateComment.pipe';
 import { GetCommentsPipe } from './pipes/getComments.pipe';
@@ -40,7 +41,8 @@ export class CommentController {
   @UseFilters(CastErrorExceptionFilter)
   editComment(
     @Param('commentId') commentId: string,
-    @Body(CheckChanalPipe) fields: Partial<Comment>,
+    @Body(CheckChanalPipe, new AllowedFieldsToBeUpdatedPipe(['content']))
+    fields: Partial<Comment>,
   ) {
     return this.commentService.editComment(commentId, fields);
   }
