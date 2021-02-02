@@ -25,8 +25,21 @@ export class PostService {
     return post;
   }
 
-  async getPosts(user: string, page: number, optional?: any) {
-    const posts = await this.PostModel.find({ owner: user });
+  async getPosts(user: string, page: number, filter?: any) {
+    const posts = (await this.PostModel.find({ owner: user })).filter(
+      function checkDate({ createdAt }: any) {
+        if (!filter) return true;
+
+        const timestamps = Math.round(new Date(createdAt).getTime() / 1000.0);
+        if (filter.name === 'postedBetween') {
+          return timestamps >= filter.start && timestamps <= filter.end;
+        }
+
+        return filter.name === 'postedAfter'
+          ? timestamps >= filter[filter.name]
+          : timestamps <= filter[filter.name];
+      },
+    );
 
     const total_pages = Math.ceil(posts.length / this.per_page);
     if (page > total_pages) {

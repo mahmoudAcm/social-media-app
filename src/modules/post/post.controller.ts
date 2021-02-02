@@ -32,8 +32,8 @@ export class PostController {
   @Get('/posts')
   @UsePipes(GetPostsPipe)
   getPosts(@Query() query: any) {
-    const { user, page, ...optional } = query;
-    return this.postService.getPosts(user, page, optional);
+    const { user, page, filter } = query;
+    return this.postService.getPosts(user, page, filter);
   }
 
   @Get('/post/:postId')
