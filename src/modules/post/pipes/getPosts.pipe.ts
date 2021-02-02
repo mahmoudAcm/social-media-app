@@ -70,7 +70,7 @@ export class GetPostsPipe implements PipeTransform {
           if (filter['start'] > filter['end']) {
             throw new BadRequestException(
               null,
-              'the startTime should be less than or equal endTime',
+              'the startDate should be less than or equal endDate',
             );
           }
         } else {
