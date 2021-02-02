@@ -59,7 +59,7 @@ export class UserService {
         total: posts.total,
         filters: [
           `/posts?user=${username}&page={pageNumber}&postedAfter={publishDate}`,
-          `/posts?user=${username}&page={pageNumber}&postedBefor={publishDate}`,
+          `/posts?user=${username}&page={pageNumber}&postedBefore={publishDate}`,
           `/posts?user=${username}&page={pageNumber}&postedBetween={startDate,endDate}`,
         ],
       },
