@@ -23,7 +23,7 @@ export class PostService {
   async getPosts(user: string, page: number, filter?: any) {
     const posts = (await this.PostModel.find({ owner: user })).filter(
       function checkDate({ createdAt }: any) {
-        if (Object.keys(filter).length === 0) return true;
+        if (Object.keys(filter || {}).length === 0) return true;
 
         const timestamps = Math.round(new Date(createdAt).getTime() / 1000.0);
         if (filter.name === 'postedBetween') {
