@@ -6,25 +6,24 @@ import {
   Param,
   Query,
   Get,
-  UseFilters,
   UsePipes,
   Delete,
+  UseFilters,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { SocialPost } from './schema/post.schema';
 import { CheckChanalPipe } from '../../common/pipes/checkChanal.pipe';
 import { AllowedFieldsToBeUpdatedPipe } from '../../common/pipes/allowedFieldsToBeUpdated.pipe';
-import { CastErrorExceptionFilter } from '../../common/filters/castErrorException.filter';
-import { CreatePostExceptionFilter } from './filters/createPostException.filter';
+import { MongooseValidationErrorExceptionFilter } from '../../common/filters/mongooseValidationErrorException.filter';
 import { GetPostsPipe } from './pipes/getPosts.pipe';
 
 @Controller()
+@UseFilters(MongooseValidationErrorExceptionFilter)
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Post('/post')
   @UsePipes(CheckChanalPipe)
-  @UseFilters(CreatePostExceptionFilter)
   createPost(@Body() postData: SocialPost) {
     return this.postService.createPost(postData);
   }
@@ -37,13 +36,11 @@ export class PostController {
   }
 
   @Get('/post/:postId')
-  @UseFilters(CastErrorExceptionFilter)
   getPost(@Param('postId') postId: string) {
     return this.postService.getPost(postId);
   }
 
   @Put('/post/:postId')
-  @UseFilters(CastErrorExceptionFilter)
   editPost(
     @Param('postId') postId: string,
     @Body(
@@ -56,7 +53,6 @@ export class PostController {
   }
 
   @Delete('/post/:postId')
-  @UseFilters(CastErrorExceptionFilter)
   deletePost(@Param('postId') postId: string) {
     return this.postService.deletePost(postId);
   }
