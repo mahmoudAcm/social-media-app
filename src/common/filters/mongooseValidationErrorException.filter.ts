@@ -15,7 +15,7 @@ export class MongooseValidationErrorExceptionFilter implements ExceptionFilter {
     let errors = {};
     if (exception instanceof Error.CastError) {
       const { kind, value } = exception;
-      errors['ID'] = {
+      errors['id'] = {
         kind,
         value,
       };
@@ -43,7 +43,12 @@ export class MongooseValidationErrorExceptionFilter implements ExceptionFilter {
           case 'ObjectId':
             return {
               ...prevState,
-              [fieldName]: `\`${errors[fieldName].value}\` is Not Valid ObjectId`,
+              [fieldName]: `failed to cast \`${errors[fieldName].value}\` to ObjectId`,
+            };
+          default:
+            return {
+              ...prevState,
+              'Validator Error': `\`${errors[fieldName].message}`,
             };
         }
       }, {}),
