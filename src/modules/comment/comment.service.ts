@@ -33,7 +33,13 @@ export class CommentService {
 
     comment.owner = '/profile/' + comment.owner;
     comment.post = '/post/' + comment.post;
-    return comment;
+    return {
+      ...comment.toJSON(),
+      reactions: {
+        link: `/reactions?activity=${comment.id}&page={pageNumber}`,
+        per_page: 10,
+      },
+    };
   }
 
   async getComments(postId: string, page: number) {
@@ -62,6 +68,10 @@ export class CommentService {
             ...comment.toJSON(),
             owner: '/profile/' + comment.owner,
             post: '/post/' + comment.post,
+            reactions: {
+              link: `/reactions?activity=${comment.id}&page={pageNumber}`,
+              per_page: 10,
+            },
           };
         }),
       page,
@@ -89,7 +99,13 @@ export class CommentService {
     comment.owner = '/profile/' + comment.owner;
     comment.post = '/post/' + comment.post;
 
-    return comment;
+    return {
+      ...comment.toJSON(),
+      reactions: {
+        link: `/reactions?activity=${comment.id}&page={pageNumber}`,
+        per_page: 10,
+      },
+    };
   }
 
   async deleteComment(commentId: string) {
