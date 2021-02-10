@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Body, Param, UseFilters } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from './schema/user.schema';
-import { MongooseValidationErrorExceptionFilter } from '../../common/filters/mongooseValidationErrorException.filter';
+import { User } from './schema';
+import { MongooseValidationErrorExceptionFilter } from '../../common/filters';
 
 @Controller()
 @UseFilters(MongooseValidationErrorExceptionFilter)

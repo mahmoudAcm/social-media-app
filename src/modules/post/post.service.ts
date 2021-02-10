@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Document } from 'mongoose';
-import { SocialPost } from './schema/post.schema';
-import { Activity } from '../user/schema/activity.schema';
-import { Comment } from '../comment/schema/comment.schema';
+import { SocialPost } from './schema';
+import { Activity } from '../user/schema';
+import { Comment } from '../comment/schema';
 
 @Injectable()
 export class PostService {
@@ -217,5 +217,15 @@ export class PostService {
       total_pages,
       total: activities.length,
     };
+  }
+
+  async countInteractions(userId: string) {
+    const types = ['love', 'hate', 'like', 'sad', 'laugh'];
+    const activities = (
+      await this.ActivityModel.find({ owner: userId })
+    ).filter(function checkType({ type }) {
+      return types.includes(type);
+    });
+    return activities.length;
   }
 }

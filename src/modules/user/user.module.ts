@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { User, UserSchema } from './schema/user.schema';
-import { Profile, ProfileSchema } from './schema/profile.schema';
+import { User, UserSchema, Profile, ProfileSchema } from './schema';
 import { PostModule } from '../post/post.module';
 import { CommentModule } from '../comment/comment.module';
 

@@ -11,12 +11,13 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
-import { Comment } from './schema/comment.schema';
-import { CheckChanalPipe } from '../../common/pipes/checkChanal.pipe';
-import { AllowedFieldsToBeUpdatedPipe } from '../../common/pipes/allowedFieldsToBeUpdated.pipe';
-import { MongooseValidationErrorExceptionFilter } from '../../common/filters/mongooseValidationErrorException.filter';
-import { ValidateCommentPipe } from './pipes/validateComment.pipe';
-import { GetCommentsPipe } from './pipes/getComments.pipe';
+import { Comment } from './schema';
+import {
+  CheckChanalPipe,
+  AllowedFieldsToBeUpdatedPipe,
+} from '../../common/pipes';
+import { MongooseValidationErrorExceptionFilter } from '../../common/filters';
+import { ValidateCommentPipe, GetCommentsPipe } from './pipes';
 
 @Controller()
 @UseFilters(MongooseValidationErrorExceptionFilter)

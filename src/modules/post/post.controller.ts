@@ -11,14 +11,18 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { PostService } from './post.service';
-import { SocialPost } from './schema/post.schema';
-import { CheckChanalPipe } from '../../common/pipes/checkChanal.pipe';
-import { AllowedFieldsToBeUpdatedPipe } from '../../common/pipes/allowedFieldsToBeUpdated.pipe';
-import { MongooseValidationErrorExceptionFilter } from '../../common/filters/mongooseValidationErrorException.filter';
-import { GetPostsPipe } from './pipes/getPosts.pipe';
-import { CheckReactionTypePipe } from './pipes/checkReactionType.pipe';
-import { GetReactionsPipe } from './pipes/getReactions.pipe';
-import { ReactWithPipe } from './pipes/reactWith.pipe';
+import { SocialPost } from './schema';
+import {
+  CheckChanalPipe,
+  AllowedFieldsToBeUpdatedPipe,
+} from '../../common/pipes';
+import { MongooseValidationErrorExceptionFilter } from '../../common/filters';
+import {
+  GetPostsPipe,
+  CheckReactionTypePipe,
+  GetReactionsPipe,
+  ReactWithPipe,
+} from './pipes';
 
 @Controller()
 @UseFilters(MongooseValidationErrorExceptionFilter)

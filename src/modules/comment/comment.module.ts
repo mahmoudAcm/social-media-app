@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommentController } from './comment.controller';
 import { CommentService } from './comment.service';
-import { Comment, CommentSchema } from './schema/comment.schema';
-import { SocialPost, PostSchema } from '../post/schema/post.schema';
+import { Comment, CommentSchema } from './schema';
+import { SocialPost, PostSchema } from '../post/schema';
 
 @Module({
   imports: [

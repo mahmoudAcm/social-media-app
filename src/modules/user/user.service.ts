@@ -1,8 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Document } from 'mongoose';
-import { User } from './schema/user.schema';
-import { Profile } from './schema/profile.schema';
+import { User, Profile } from './schema';
 import { PostService } from '../post/post.service';
 import { CommentService } from '../comment/comment.service';
 
@@ -51,7 +50,7 @@ export class UserService {
     return wantedKeys.reduce(this.removeSensitiveData(skippedKeys, userJSON), {
       comments: await this.commentService.countComments(username),
       shares: 10,
-      interactions: 10,
+      interactions: await this.postService.countInteractions(username),
       posts: {
         link: `/posts?user=${username}&page={pageNumber}`,
         total_pages: posts.total_pages,
