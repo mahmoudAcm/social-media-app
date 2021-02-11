@@ -10,8 +10,8 @@ export class AllowedFieldsToBeUpdatedPipe<T> implements PipeTransform {
   }
 
   transform(fields: T) {
-    const upadateFields = Object.keys(fields);
-    for (const field of upadateFields) {
+    const updateFields = Object.keys(fields);
+    for (const field of updateFields) {
       if (!this.arrayFilters.includes(field)) {
         throw new ForbiddenException(
           null,

@@ -50,9 +50,7 @@ export class PostController {
   @Put('/post/:postId')
   editPost(
     @Param('postId') postId: string,
-    @Body(
-      AllowedFieldsToBeUpdatedPipe.include(['content', 'type', 'title']),
-    )
+    @Body(AllowedFieldsToBeUpdatedPipe.include(['content', 'type', 'title']))
     fields: Partial<SocialPost>,
   ) {
     return this.postService.editPost(postId, fields);
