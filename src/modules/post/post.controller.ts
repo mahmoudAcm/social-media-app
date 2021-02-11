@@ -51,8 +51,7 @@ export class PostController {
   editPost(
     @Param('postId') postId: string,
     @Body(
-      CheckChanalPipe,
-      new AllowedFieldsToBeUpdatedPipe(['content', 'type', 'title']),
+      AllowedFieldsToBeUpdatedPipe.include(['content', 'type', 'title']),
     )
     fields: Partial<SocialPost>,
   ) {

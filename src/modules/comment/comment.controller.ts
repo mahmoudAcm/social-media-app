@@ -40,7 +40,7 @@ export class CommentController {
   @Put('/comment/:commentId')
   editComment(
     @Param('commentId') commentId: string,
-    @Body(CheckChanalPipe, new AllowedFieldsToBeUpdatedPipe(['content']))
+    @Body(AllowedFieldsToBeUpdatedPipe.include(['content']))
     fields: Partial<Comment>,
   ) {
     return this.commentService.editComment(commentId, fields);
