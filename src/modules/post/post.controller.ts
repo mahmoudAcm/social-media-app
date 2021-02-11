@@ -74,4 +74,12 @@ export class PostController {
   getReactions(@Query() query: any) {
     return this.postService.getReactions(query);
   }
+
+  @Post('/share/:postId')
+  sharePost(
+    @Param('postId') postId: string,
+    @Body(CheckChanalPipe) postData: SocialPost,
+  ) {
+    return this.postService.sharePost(postId, postData);
+  }
 }

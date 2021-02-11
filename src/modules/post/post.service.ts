@@ -219,8 +219,35 @@ export class PostService {
     };
   }
 
-  async countInteractions(userId: string) {
-    const types = ['love', 'hate', 'like', 'sad', 'laugh'];
+  async sharePost(postId: string, postData: SocialPost) {
+    const post = new this.PostModel({
+      ...postData,
+      sharedFrom: postId,
+    });
+    await post.save();
+
+    post.owner = '/profile/' + post.owner;
+    post.sharedFrom = '/post/' + postId;
+
+    const activity = new this.ActivityModel({
+      owner: post.owner,
+      type: 'share',
+      activity: postId,
+      belongsTo: 'post',
+    });
+    await activity.save();
+
+    return post;
+  }
+
+  async count(userId: string, type: 'shares' | 'interactions') {
+    let types: Array<string>;
+    if (type == 'shares') {
+      types = ['share'];
+    } else if (type == 'interactions') {
+      types = ['love', 'hate', 'like', 'sad', 'laugh'];
+    }
+
     const activities = (
       await this.ActivityModel.find({ owner: userId })
     ).filter(function checkType({ type }) {

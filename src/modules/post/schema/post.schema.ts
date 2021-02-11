@@ -15,6 +15,9 @@ export class SocialPost {
   @Prop({ default: Types.ObjectId, type: Types.ObjectId })
   chanal: string;
 
+  @Prop({ default: 'nothing', type: Types.ObjectId })
+  sharedFrom: string;
+
   @Prop()
   title?: string;
 }

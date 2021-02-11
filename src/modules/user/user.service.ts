@@ -49,8 +49,8 @@ export class UserService {
     const wantedKeys = Object.keys(userJSON);
     return wantedKeys.reduce(this.removeSensitiveData(skippedKeys, userJSON), {
       comments: await this.commentService.countComments(username),
-      shares: 10,
-      interactions: await this.postService.countInteractions(username),
+      shares: await this.postService.count(username, 'shares'),
+      interactions: await this.postService.count(username, 'interactions'),
       posts: {
         link: `/posts?user=${username}&page={pageNumber}`,
         total_pages: posts.total_pages,
