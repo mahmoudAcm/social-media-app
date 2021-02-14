@@ -47,17 +47,19 @@ export class MongooseValidationErrorExceptionFilter implements ExceptionFilter {
       }
     }, {});
 
-    if (host.getType() === 'ws') {
-      const ctx = host.switchToWs();
-      const socket = ctx.getClient();
-      socket.emit('exception', errors);
-    } else if (host.getType() === 'http') {
-      const ctx = host.switchToHttp();
-      const response = ctx.getResponse();
-      response.status(HttpStatus.BAD_REQUEST).json({
-        status: HttpStatus.BAD_REQUEST,
-        errors,
-      });
+    const contextType = host.getType();
+    switch (contextType) {
+      case 'ws':
+        const socket = host.switchToWs().getClient();
+        socket.emit('exception', errors);
+        break;
+      case 'http':
+        const response = host.switchToHttp().getResponse();
+        response.status(HttpStatus.BAD_REQUEST).json({
+          status: HttpStatus.BAD_REQUEST,
+          errors,
+        });
+        break;
     }
   }
 }
