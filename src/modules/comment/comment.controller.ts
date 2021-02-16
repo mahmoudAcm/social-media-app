@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  Post,
   Put,
   Query,
   UseFilters,
@@ -12,23 +11,14 @@ import {
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { Comment } from './schema';
-import {
-  CheckChanalPipe,
-  AllowedFieldsToBeUpdatedPipe,
-} from '../../common/pipes';
+import { AllowedFieldsToBeUpdatedPipe } from '../../common/pipes';
 import { MongooseValidationErrorExceptionFilter } from '../../common/filters';
-import { ValidateCommentPipe, GetCommentsPipe } from './pipes';
+import { GetCommentsPipe } from './pipes';
 
 @Controller()
 @UseFilters(MongooseValidationErrorExceptionFilter)
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
-
-  @Post('/comment')
-  @UsePipes(CheckChanalPipe, ValidateCommentPipe)
-  createComment(@Body() commentData: Comment) {
-    return this.commentService.createComment(commentData);
-  }
 
   @Get('/comments')
   @UsePipes(GetCommentsPipe)

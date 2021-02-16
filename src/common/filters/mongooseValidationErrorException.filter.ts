@@ -33,7 +33,7 @@ export class MongooseValidationErrorExceptionFilter implements ExceptionFilter {
             ] as any).properties.enumValues.join(' - ')}]`,
           };
         case 'required':
-          return { ...prevState, [fieldName]: 'required' };
+          return { ...prevState, [fieldName]: 'is a required property' };
         case 'ObjectId':
           return {
             ...prevState,
@@ -51,7 +51,10 @@ export class MongooseValidationErrorExceptionFilter implements ExceptionFilter {
     switch (contextType) {
       case 'ws':
         const socket = host.switchToWs().getClient();
-        socket.emit('exception', { errors });
+        socket.emit('exception', {
+          status: HttpStatus.BAD_REQUEST,
+          errors,
+        });
         break;
       case 'http':
         const response = host.switchToHttp().getResponse();
