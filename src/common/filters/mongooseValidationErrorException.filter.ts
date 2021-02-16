@@ -51,7 +51,7 @@ export class MongooseValidationErrorExceptionFilter implements ExceptionFilter {
     switch (contextType) {
       case 'ws':
         const socket = host.switchToWs().getClient();
-        socket.emit('exception', errors);
+        socket.emit('exception', { errors });
         break;
       case 'http':
         const response = host.switchToHttp().getResponse();
