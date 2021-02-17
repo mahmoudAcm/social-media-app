@@ -1,1 +1,1 @@
-export * from './reactWith.pipe';
+export * from './react-with.pipe';

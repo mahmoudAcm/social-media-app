@@ -1,2 +1,2 @@
-export * from './getPosts.pipe';
-export * from './getReactions.pipe';
+export * from './get-posts.pipe';
+export * from './get-reactions.pipe';

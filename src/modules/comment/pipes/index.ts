@@ -1,1 +1,1 @@
-export * from './getComments.pipe';
+export * from './get-comments.pipe';
