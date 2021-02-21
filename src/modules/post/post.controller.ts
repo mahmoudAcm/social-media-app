@@ -17,7 +17,7 @@ import {
   AllowedFieldsToBeUpdatedPipe,
 } from '../../common/pipes';
 import { MongooseValidationErrorExceptionFilter } from '../../common/filters';
-import { GetPostsPipe, GetReactionsPipe } from './pipes';
+import { GetPostsPipe, GetReactionsPipe, ReactWithPipe } from './pipes';
 
 @Controller()
 @UseFilters(MongooseValidationErrorExceptionFilter)
@@ -54,6 +54,12 @@ export class PostController {
   @Delete('/post/:postId')
   deletePost(@Param('postId') postId: string) {
     return this.postService.deletePost(postId);
+  }
+
+  @Post('/reactWith/:type')
+  @UsePipes(ReactWithPipe)
+  reactWith(@Body() react: any, @Param('type') reaction: string) {
+    return this.postService.reactWith(react, reaction);
   }
 
   @Get('/reactions')
