@@ -1,4 +1,4 @@
-import { UseFilters } from '@nestjs/common';
+import { UseFilters, UsePipes } from '@nestjs/common';
 import {
   SubscribeMessage,
   WebSocketGateway,
@@ -11,6 +11,8 @@ import {
   MongooseValidationErrorExceptionFilter,
   WsExceptionFilter,
 } from '../../common/filters';
+import { PostHandlerPayload } from './interfaces';
+import { ValidatePostHandlerPayloadPipe } from './pipes';
 
 @WebSocketGateway({ namespace: 'social' })
 @UseFilters(WsExceptionFilter, MongooseValidationErrorExceptionFilter)
@@ -24,5 +26,16 @@ export class SocialGateway {
       //notifies the client that he has joined the room
       client.emit('join', 'you has joined the room');
     });
+  }
+
+  /**
+   * Notifies with a given payload all users that subscribed to a given post
+   * and sends a notification to the owner of that post
+   */
+  @SubscribeMessage('post')
+  @UsePipes(ValidatePostHandlerPayloadPipe)
+  handlePost(@MessageBody() { room, ...payload }: PostHandlerPayload) {
+    this.server.to(room).emit('post', payload);
+    this.server.to(payload[payload.type].owner).emit('notification', payload);
   }
 }

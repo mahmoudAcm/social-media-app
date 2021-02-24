@@ -1,1 +1,1 @@
-export * from './react-with.pipe';
+export * from './validate-post-handler-payload.pipe';
