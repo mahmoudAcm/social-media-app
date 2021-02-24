@@ -24,7 +24,7 @@ import { GetPostsPipe, GetReactionsPipe, ReactWithPipe } from './pipes';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @Post('/post')
+  @Post('/posts')
   @UsePipes(CheckChanalPipe)
   createPost(@Body() postData: SocialPost) {
     return this.postService.createPost(postData);
@@ -37,12 +37,12 @@ export class PostController {
     return this.postService.getPosts(user, page, filter);
   }
 
-  @Get('/post/:postId')
+  @Get('/posts/:postId')
   getPost(@Param('postId') postId: string) {
     return this.postService.getPost(postId);
   }
 
-  @Put('/post/:postId')
+  @Put('/posts/:postId')
   editPost(
     @Param('postId') postId: string,
     @Body(AllowedFieldsToBeUpdatedPipe.include(['content', 'type', 'title']))
@@ -51,12 +51,12 @@ export class PostController {
     return this.postService.editPost(postId, fields);
   }
 
-  @Delete('/post/:postId')
+  @Delete('/posts/:postId')
   deletePost(@Param('postId') postId: string) {
     return this.postService.deletePost(postId);
   }
 
-  @Post('/reactWith/:type')
+  @Post('/react-with/:type')
   @UsePipes(ReactWithPipe)
   reactWith(@Body() react: any, @Param('type') reaction: string) {
     return this.postService.reactWith(react, reaction);

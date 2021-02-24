@@ -24,7 +24,7 @@ import { GetCommentsPipe } from './pipes';
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @Post('/comment')
+  @Post('/comments')
   @UsePipes(CheckChanalPipe)
   createComment(@Body() commentData: Comment) {
     return this.commentService.createComment(commentData);
@@ -37,7 +37,7 @@ export class CommentController {
     return this.commentService.getComments(post, page);
   }
 
-  @Put('/comment/:commentId')
+  @Put('/comments/:commentId')
   editComment(
     @Param('commentId') commentId: string,
     @Body(AllowedFieldsToBeUpdatedPipe.include(['content']))
@@ -46,7 +46,7 @@ export class CommentController {
     return this.commentService.editComment(commentId, fields);
   }
 
-  @Delete('/comment/:commentId')
+  @Delete('/comments/:commentId')
   deletePost(@Param('commentId') commentId: string) {
     return this.commentService.deleteComment(commentId);
   }
