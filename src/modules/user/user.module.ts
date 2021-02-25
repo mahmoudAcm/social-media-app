@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { User, UserSchema, Profile, ProfileSchema } from './schema';
 import { PostModule } from '../post/post.module';
 import { CommentModule } from '../comment/comment.module';
+import { UserConnectionsModule } from '../user-connections/user-connections.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CommentModule } from '../comment/comment.module';
     ]),
     PostModule,
     CommentModule,
+    UserConnectionsModule,
   ],
   controllers: [UserController],
   providers: [UserService],

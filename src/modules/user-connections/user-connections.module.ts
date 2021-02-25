@@ -13,5 +13,6 @@ import { UserConnectionsController } from './user-connections.controller';
   ],
   providers: [UserConnectionsService],
   controllers: [UserConnectionsController],
+  exports: [UserConnectionsService],
 })
 export class UserConnectionsModule {}

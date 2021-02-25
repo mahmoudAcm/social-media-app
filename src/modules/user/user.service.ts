@@ -4,6 +4,7 @@ import { Model, Document } from 'mongoose';
 import { User, Profile } from './schema';
 import { PostService } from '../post/post.service';
 import { CommentService } from '../comment/comment.service';
+import { UserConnectionsService } from '../user-connections/user-connections.service';
 
 @Injectable()
 export class UserService {
@@ -13,6 +14,7 @@ export class UserService {
     private readonly ProfileModel: Model<Profile & Document>,
     private readonly postService: PostService,
     private readonly commentService: CommentService,
+    private readonly userConnectionsService: UserConnectionsService,
   ) {}
 
   /**
@@ -44,6 +46,15 @@ export class UserService {
       throw new NotFoundException(user, 'user is not found');
     }
     const posts = await this.postService.getPosts(username, 1);
+    const followers = await this.userConnectionsService.getFollowers(
+      username,
+      1,
+    );
+    const friends = await this.userConnectionsService.getUsers(
+      username,
+      1,
+      true,
+    );
     const skippedKeys = { password: true };
     const userJSON: User = user.toJSON();
     const wantedKeys = Object.keys(userJSON);
@@ -64,15 +75,15 @@ export class UserService {
       },
       followers: {
         link: `/followers?user=${username}&page={pageNumber}`,
-        total_pages: 10,
-        per_page: 20,
-        total: 10,
+        total_pages: followers.total_pages,
+        per_page: followers.per_page,
+        total: followers.total,
       },
       firends: {
         link: `/friends?user=${username}&page={pageNumber}`,
-        total_pages: 10,
-        per_page: 20,
-        total: 10,
+        total_pages: friends.total_pages,
+        per_page: friends.per_page,
+        total: friends.total,
       },
     });
   }
