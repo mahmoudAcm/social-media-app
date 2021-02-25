@@ -1,15 +1,10 @@
 import { ForbiddenException, Injectable, PipeTransform } from '@nestjs/common';
 
 @Injectable()
-export class AllowedFieldsToBeUpdatedPipe<T> implements PipeTransform {
-  private arrayFilters: Array<string>;
+export class AllowedFieldsToBeUpdatedPipe implements PipeTransform {
+  constructor(private readonly arrayFilters: Array<string>) {}
 
-  static include(arrayFilters: Array<string>) {
-    this.prototype.arrayFilters = arrayFilters;
-    return this;
-  }
-
-  transform(fields: T) {
+  transform(fields: any) {
     const updateFields = Object.keys(fields);
     for (const field of updateFields) {
       if (!this.arrayFilters.includes(field)) {
