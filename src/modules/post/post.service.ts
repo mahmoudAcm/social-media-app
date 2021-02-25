@@ -154,7 +154,7 @@ export class PostService {
           activity.type = reaction;
           await activity.save();
 
-          activity.activity = '/' + react.belongsTo + '/' + activity.activity;
+          activity.activity = '/' + react.belongsTo + 's/' + activity.activity;
           activity.owner = '/profile/' + activity.owner;
           return activity;
         }
@@ -165,7 +165,7 @@ export class PostService {
     const activity = new this.ActivityModel({ ...react, type: reaction });
     await activity.save();
 
-    activity.activity = '/' + react.belongsTo + '/' + activity.activity;
+    activity.activity = '/' + react.belongsTo + 's/' + activity.activity;
     activity.owner = '/profile/' + activity.owner;
     return activity;
   }
@@ -209,7 +209,7 @@ export class PostService {
           return {
             ...(rest as any)._doc,
             owner: '/profile/' + owner,
-            activity: '/' + belongsTo + '/' + activity,
+            activity: '/' + belongsTo + 's/' + activity,
           };
         }),
       page,
@@ -227,7 +227,7 @@ export class PostService {
     await post.save();
 
     post.owner = '/profile/' + post.owner;
-    post.sharedFrom = '/post/' + postId;
+    post.sharedFrom = '/posts/' + postId;
 
     const activity = new this.ActivityModel({
       owner: post.owner,

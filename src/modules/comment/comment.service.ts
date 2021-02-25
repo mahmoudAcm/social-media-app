@@ -32,7 +32,7 @@ export class CommentService {
     await comment.save();
 
     comment.owner = '/profile/' + comment.owner;
-    comment.post = '/post/' + comment.post;
+    comment.post = '/posts/' + comment.post;
     return {
       ...comment.toJSON(),
       reactions: {
@@ -67,7 +67,7 @@ export class CommentService {
           return {
             ...comment.toJSON(),
             owner: '/profile/' + comment.owner,
-            post: '/post/' + comment.post,
+            post: '/posts/' + comment.post,
             reactions: {
               link: `/reactions?activity=${comment.id}&page={pageNumber}`,
               per_page: 10,
@@ -97,7 +97,7 @@ export class CommentService {
     }
 
     comment.owner = '/profile/' + comment.owner;
-    comment.post = '/post/' + comment.post;
+    comment.post = '/posts/' + comment.post;
 
     return {
       ...comment.toJSON(),
